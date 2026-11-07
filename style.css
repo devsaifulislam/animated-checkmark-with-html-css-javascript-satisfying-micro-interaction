@@ -1,0 +1,77 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #4b3cf2, #9cece3);
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.checkmark {
+  --angle: 0deg;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.checkmark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(white var(--angle), transparent 0);
+  mask: radial-gradient(farthest-side, transparent 90%, black 92%);
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: white;
+  transform: scale(0);
+}
+
+.checkmark svg {
+  position: absolute;
+  z-index: 1;
+  inset: 10%;
+  width: 80%;
+  height: 80%;
+  fill: #7393ea;
+  opacity: 0;
+}
+
+.checkmark.play::before {
+  animation: draw .8s ease .4s forwards;
+}
+
+.checkmark.play::after {
+  animation: fill .3s ease 1.2s forwards;
+}
+
+.checkmark.play svg {
+  animation: pop .9s ease 1.4s forwards;
+}
+
+@keyframes draw {
+  to { --angle: 360deg; }
+}
+
+@keyframes fill {
+  to { transform: scale(1); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
